@@ -2,17 +2,11 @@ import app from "./src/app.js";
 import connectedToDb from "./src/config/db.js";
 import { PORT } from "./src/config/env.js";
 import dns from "dns";
-import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
 dns.setServers(["4.4.4.4","8.8.8.8"])
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true, 
-  })
-);
+
 
 // ✅ handle preflight (IMPORTANT for Render)
 app.options("*", cors());

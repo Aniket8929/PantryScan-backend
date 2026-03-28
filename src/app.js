@@ -3,11 +3,23 @@ import authRoutes from "./routes/auth.router.js";
 import mealRouter from "./routes/meal.router.js";
 import cookieParser from "cookie-parser";
 import authMiddleware from "./middleware/authMiddleware.js";
+import cors from "cors";
+
 const app = express();
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true, 
+  })
+);
+
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/meal", authMiddleware, mealRouter);
