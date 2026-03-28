@@ -8,8 +8,6 @@ dotenv.config();
 dns.setServers(["4.4.4.4","8.8.8.8"])
 
 
-// ✅ handle preflight (IMPORTANT for Render)
-app.options("*", cors());
 
 const server = app.listen(PORT,async () => {
  await connectedToDb();

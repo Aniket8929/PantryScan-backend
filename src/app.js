@@ -18,9 +18,8 @@ app.use(
     credentials: true, 
   })
 );
-
-
-
+// ✅ handle preflight (IMPORTANT for Render)
+app.options("*", cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/meal", authMiddleware, mealRouter);
 
