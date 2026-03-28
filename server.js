@@ -14,6 +14,9 @@ app.use(
   })
 );
 
+// ✅ handle preflight (IMPORTANT for Render)
+app.options("*", cors());
+
 const server = app.listen(PORT,async () => {
  await connectedToDb();
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
