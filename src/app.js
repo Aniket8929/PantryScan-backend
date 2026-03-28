@@ -2,7 +2,7 @@ import express from "express";
 import authRoutes from "./routes/auth.router.js";
 import mealRouter from "./routes/meal.router.js";
 import cookieParser from "cookie-parser";
-import authMiddleware from "./middleware/Authmiddleware.js";
+import authMiddleware from "./middleware/authmiddleware.js";
 const app = express();
 
 app.use(express.json());
