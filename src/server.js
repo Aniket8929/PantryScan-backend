@@ -1,6 +1,6 @@
-import app from "./src/app.js";
-import connectedToDb from "./src/config/db.js";
-import { PORT } from "./src/config/env.js";
+import app from "./app.js";
+import connectedToDb from "./config/db.js";
+import { PORT } from "./config/env.js";
 import dns from "dns";
 import cors from "cors";
 import dotenv from "dotenv";
