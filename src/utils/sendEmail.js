@@ -1,25 +1,29 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (to, subject, text) => {
+ const sendEmail = async (to, subject, text) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_USER,      
+        pass: process.env.EMAIL_PASS,    
       },
     });
 
-    await transporter.sendMail({
-      from: `"Pantry App" <${process.env.EMAIL_USER}>`,
+    const info = await transporter.sendMail({
+      from: `"OTP Service" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       text,
     });
-    console.log("Email Sent ✅");
+
+    console.log("✅ Email sent:", info.response);
+    return true;
   } catch (error) {
-    console.log("Email Error ❌", error.message);
+    console.error("❌ Email error:", error);
+    return false;
   }
 };
+
 
 export default sendEmail;

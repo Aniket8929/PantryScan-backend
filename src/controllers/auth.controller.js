@@ -6,21 +6,18 @@ export const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
-      return sendResponse(res, 400, "Email is required");
+      return res.status(400).json({ message: "Email is required" });
     }
     let user = await User.findOne({ email });
     // ✅ Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    // ✅ Expiry (10 minutes)
+    // ✅ Expiry (10 min)
     const otpExpire = Date.now() + 10 * 60 * 1000;
     if (user) {
-
-      // ✅ Update OTP
       user.otp = otp;
       user.otpExpire = otpExpire;
       await user.save();
     } else {
-      // ✅ Create new user
       user = await User.create({
         email,
         otp,
@@ -28,18 +25,21 @@ export const sendOTP = async (req, res) => {
         isVerified: false,
       });
     }
-    // ✅ Send Email
-    await sendEmail(email, "Email Verification OTP", `Your OTP is: ${otp}`);
+    const isSent = await sendEmail(
+      email,
+      "Email Verification OTP",
+      `Your OTP is: ${otp}`
+    );
+
+    if (!isSent) {
+      return sendResponse(res, 500, "Failed to send OTP email");
+    }
     return sendResponse(res, 200, "OTP sent successfully");
   } catch (error) {
-    console.error("Email Verification Error:", error);
-    if (error.code === 11000) {
-      return sendResponse(res, 400, "User already exists");
-    }
+    console.error("❌ OTP Error:", error);
     return sendResponse(res, 500, "Internal server error");
   }
 };
-
 export const verifyOTP = async (req, res) => {
   try {
     const { otp, email } = req.body;
