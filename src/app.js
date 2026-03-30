@@ -12,16 +12,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const allowlist = [
+  "http://localhost:5173",
+  "https://pantry-scan-frontend.vercel.app"
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, 
+    origin: allowlist,
+    credentials: true,
   })
 );
-// ✅ handle preflight (IMPORTANT for Render)
+
 app.options("*", cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/meal", authMiddleware, mealRouter);
+
 
 app.get("/", (req, res) => {
   res.json({

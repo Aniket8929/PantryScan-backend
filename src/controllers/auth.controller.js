@@ -61,9 +61,7 @@ export const verifyOTP = async (req, res) => {
     user.otpExpire = null;
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.cookie("token", token);
     return sendResponse(res, 200, "User verified successfully", user);
   } catch (error) {
